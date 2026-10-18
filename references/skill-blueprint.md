@@ -77,15 +77,85 @@ description: <一句话说明做什么 + 完整触发场景与触发词。触发
 """
 ```
 
-## 五、开源规范（用户确认发布 GitHub 时）
+**署名硬规则**：`scripts/` 内所有代码文件（.py、.sh 等）首行必须是 `# Designed by TiantianYe`（编码声明等注释跟在其后）；交付与开源发布前逐一检查，缺失即补。
 
-- 仓库：gh 账号 **TiantianYeTTY**；git 提交身份 `Tiantian Ye <13585886743@163.com>`；main 分支。
-- **README 格式对齐 TiantianYeTTY/lab-report-completion**：`# 仓库名` → 顶部 blockquote（一句话定位 + 作者 **TiantianYe** + App Store 代表作品签名行）→ `## ✨ 这是什么` → `## 🎯 使用场景`（要素表 + 典型触发指令示例引用块）→ `## 📦 安装`（git clone 到 `~/.workbuddy/skills/`）→ `## 🚀 使用方法（工作流概览）`（阶段表 + 输入/产出 ASCII 箭头图）→ `## 🔧 环境依赖` → `## ⚠️ 重要说明`（编号硬约束）→ `## 📁 目录结构` → `## 🐛 已知踩坑点（节选）` → `## 👤 作者` → `## 📄 许可`。
-- 作者签名行（固定文案）：`作者在 App Store 中的其他代表作品：水课帮-课堂提问助手；识词本-单词笔记；投影与视图3D教具；解构照片`
-- Python 文件首行：`# Designed by TiantianYe`
-- README 不写内部过程性信息（版本演进、"用户已弃用 X 路线"之类）——开源读者只关心它是什么、怎么用。
-- 发布前：敏感信息扫描（token/key/password）→ 首次 commit → `gh repo create <name> --public --source=. --push` → `gh api` 核对远端文件齐全。
-- 用户网页端可能自行改过 README：push 被拒时先 `git fetch` 看远端提交，rebase 合并并尊重其改动，禁止 force push。
+## 五、一键开源规范（用户下达"开源到 GitHub / 发布"指令时执行）
+
+### 九步流程（开源指令即确认）
+
+1. 敏感信息扫描：`grep -rn -i "ghp_\|github_pat\|gho_\|api[_-]key\|password\|secret"`，0 命中才继续。
+2. 生成/更新 `README.md`：按下方**固定模板**逐节生成——章节顺序与名称固定，不增删；不写内部过程信息（版本演进、"用户弃用 X 路线"等）；不写平台品牌字样。开源读者只关心它是什么、怎么用。
+3. 生成 `LICENSE`（MIT，`Copyright (c) <当年> Tiantian Ye`）与 `.gitignore`（`.DS_Store`、`__pycache__/`、`*.pyc`、`.venv/`）。
+4. 署名检查：`scripts/` 内每个代码文件首行 `# Designed by TiantianYe`，缺失即补。
+5. 无 git 仓库时 `git init -q && git branch -M main`；本地身份 `user.name "Tiantian Ye"` / `user.email "13585886743@163.com"`；`git add -A && git commit`。
+6. `gh repo create <skill-name> --public --source=. --remote=origin --push --description "<一句话>+Agent Skill（不写平台品牌）"`。仓库：gh 账号 **TiantianYeTTY**，main 分支。
+7. `gh api repos/TiantianYeTTY/<skill-name>/contents -q '.[].name'` 核对远端文件齐全。
+8. push 被拒 = 用户可能在网页端改过：`git fetch` 查看远端提交，rebase 合并并尊重其改动，**禁止 force push**。
+9. 交付仓库 URL（present_files），更新记忆。
+
+### README 固定模板（照此逐节生成）
+
+```markdown
+# <skill-name>
+
+> <一句话定位>（Agent Skill）。
+>
+> <第二句：从输入到产出的一条龙描述>。
+>
+> 作者：**TiantianYe**
+>
+> 作者在 App Store 中的其他代表作品：水课帮-课堂提问助手；识词本-单词笔记；投影与视图3D教具；解构照片
+
+---
+
+## ✨ 这是什么
+<2-4 条 bullet 讲清解决的具体问题 + 一句"本技能将整个流程标准化：A → B → C" + 首个落地案例一句话>
+
+## 🎯 使用场景
+| 要素 | 说明 |
+|---|---|
+| <前提/学段> | <...> |
+| 输入材料 | <...> |
+| 典型诉求 | <...> |
+| 质量要求 | <...> |
+
+典型触发指令示例：
+
+> <用户真实句式>
+
+## 📦 安装
+git clone https://github.com/TiantianYeTTY/<skill-name>.git ~/.workbuddy/skills/<skill-name>
+<一句：重启会话后技能即被识别 / 可显式调用 /<skill-name>>
+
+## 🚀 使用方法（工作流概览）
+| 阶段 | 内容 | 关键点 |
+（每阶段一行，关键点列最硬的约束）
+
+### 输入 / 产出
+<ASCII 箭头图：左输入右产出>
+
+## 🔧 环境依赖
+- <每条带一句"为什么需要">
+
+## ⚠️ 重要说明
+1. <编号硬约束，含"定稿/原件只读"类与用户最敏感的规则>
+
+## 📁 目录结构
+<树形注释，每个文件一句话>
+
+## 🐛 已知踩坑点（节选）
+- <从错误档案挑 4-6 条，"错误——正确做法"半句式>
+
+## 👤 作者
+**TiantianYe**
+
+作者在 App Store 中的其他代表作品：水课帮-课堂提问助手；识词本-单词笔记；投影与视图3D教具；解构照片。
+
+欢迎通过 Issue 反馈问题，或提交 PR 完善工作流。
+
+## 📄 许可
+[MIT](./LICENSE)
+```
 
 ## 六、验证命令
 
