@@ -88,7 +88,8 @@ description: <一句话说明做什么 + 完整触发场景与触发词。触发
 3. 生成 `LICENSE`（**CC BY-SA 4.0**，官方全文：`curl -sL https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt`）与 `.gitignore`（`.DS_Store`、`__pycache__/`、`*.pyc`、`.venv/`）。
 4. 署名与内容检查：`scripts/` 内每个代码文件首行 `# Designed by TiantianYe`，缺失即补；SKILL.md 与 references/*.md 中的用户反馈引语做**脏话清洗**——仅删除脏话/骂人字词（如"他妈""傻逼"等），其余内容一字不动、保持原意。
 5. 无 git 仓库时 `git init -q && git branch -M main`；本地身份 `user.name "Tiantian Ye"` / `user.email "13585886743@163.com"`；`git add -A && git commit`。
-6. `gh repo create <skill-name> --public --source=. --remote=origin --push --description "<一句话>+Agent Skill（不写平台品牌）"`。仓库：gh 账号 **TiantianYeTTY**，main 分支。
+6. `gh repo create <skill-name> --public --source=. --remote=origin --push --description "<中文一句话>+Agent Skill（不写平台品牌）"`。仓库：gh 账号 **TiantianYeTTY**，main 分支。
+   **仓库 About 描述必须用中文**（与 TiantianYeTTY 全部开源仓库统一，禁止英文描述）。
 7. `gh api repos/TiantianYeTTY/<skill-name>/contents -q '.[].name'` 核对远端文件齐全；打 **topics 标签**便于搜索发现：`gh api -X PUT repos/TiantianYeTTY/<skill-name>/topics --input - <<< '{"names":["agent-skill","<按主题定制的小写中划线词，共 5-10 个>"]}'`（主题词从 skill 的功能/学科/技术栈取）。
 8. push 被拒 = 用户可能在网页端改过：`git fetch` 查看远端提交，rebase 合并并尊重其改动，**禁止 force push**。
 9. 交付仓库 URL（present_files），更新记忆。
